@@ -90,10 +90,29 @@ class Node(object):
     def __repr__(self):
         return super(Node, self).__repr__() + " %s>" % self.label
 
-    def __str__(self):
-        s = "%d:%s" % (len(self.children), self.label)
-        s = '\n'.join([s]+[str(c) for c in self.children])
-        return s
+    # def __str__(self):
+    #     s = "%d:%s" % (len(self.children), self.label)
+    #     s = '\n'.join([s]+[str(c) for c in self.children])
+    #     return s
+    
+    def __str__(self, level=0):
+        ret = "\t"*level+repr(self.label)+"\n"
+        for child in self.children:
+            ret += child.__str__(level+1)
+        return ret
+
+    def print_tree(self, last=True, header=''):
+        elbow = "└──"
+        pipe = "│  "
+        tee = "├──"
+        blank = "   "
+        if self.label is None:
+            print(header + (elbow if last else tee) + "None")
+        else:
+            print(header + (elbow if last else tee) + str(self.label))
+        children = list(self.children)
+        for i, c in enumerate(children):
+            c.print_tree(header=header + (blank if last else pipe), last=i == len(children) - 1)
 
     def __sub__(self, other):
         return zss.simple_distance(self, other)
