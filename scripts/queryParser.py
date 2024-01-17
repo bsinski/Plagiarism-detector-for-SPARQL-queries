@@ -24,11 +24,24 @@ def parse_filterings(expression):
             expr = get_literal(expression['expr'])
         else:
             expr = get_variable(expression['expr'])
-        return {
-            'op': expression['op'],
-            'expr': expr,
-            'other': other,
-        }
+        if expression['op'] == '<':
+            return{
+                'op': '>',
+                'expr': other,
+                'other': expr
+            }
+        elif expression['op'] == '<=':
+            return{
+                'op': '>=',
+                'expr': other,
+                'other': expr
+            }
+        else:
+            return {
+                'op': expression['op'],
+                'expr': expr,
+                'other': other
+            }
     elif expression.name == 'ConditionalAndExpression':
         parsed_expression = {
             'logic' : 'and',
@@ -173,15 +186,16 @@ def convert_to_query_structure(input_dict):
             for extend in extends_agg:
                 extends_dict[extend['var']] = extend['expr']  
             query_dict['group'] = grouped
-            tmp_dict = tmp_dict['p']['p']
+            tmp_dict = tmp_dict['p']
     except KeyError:
         pass
 
     
     try:
-        filter_condition = tmp_dict['p']['expr']
-        query_dict['filter'] = parse_filterings(filter_condition)
-        tmp_dict = tmp_dict['p']
+        if tmp_dict['p'].name=='Filter':
+            filter_condition = tmp_dict['p']['expr']
+            query_dict['filter'] = parse_filterings(filter_condition)
+            tmp_dict = tmp_dict['p']
     except KeyError:
         pass
     
