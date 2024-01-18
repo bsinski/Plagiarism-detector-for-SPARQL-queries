@@ -195,7 +195,10 @@ def convert_to_query_structure(input_dict):
     try:
         if tmp_dict['p'].name=='Filter':
             filter_condition = tmp_dict['p']['expr']
-            print(filter_condition)
+
+
+
+            
             query_dict['filter'] = parse_filterings(filter_condition)
             tmp_dict = tmp_dict['p']
     except KeyError:
