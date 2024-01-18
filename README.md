@@ -1,30 +1,25 @@
 # Plagiarism-detector-for-SPARQL-queries
 
-This project aims to detect plagiarism in SPARQL queries. It uses advanced algorithms to compare the structure and semantics of different queries to detect potential plagiarism.
+This project aims to detect plagiarism in SPARQL queries. This project is a part of a course called Knowledge Graphs conducted on the Warsaw University of Technology.   It converts SPARQL queries to Abstract Syntax Trees (AST) and than it calulates the distance between two trees using (metric name).
 
 ## Scope
 
-The scope of this project includes:
+The scope of this project is to assess the similarity between two SPARQL queries. This is achieved by first converting SPARQL queries to Abstract Syntax Trees (AST) and than it calulating the distance between them using (metric name).
 
-- Comparing SPARQL queries to detect similarities
-- Providing a score indicating the likelihood of plagiarism
-- Offering a user-friendly interface for uploading and comparing queries
+## AST?
+Coś o ast
+
+## Distance metric 
+Describe the distance metric 
 
 ## Directories
 
-- `src/`: This directory contains the source code for the plagiarism detection algorithm.
-- `tests/`: This directory contains unit tests for the source code.
-- `data/`: This directory contains sample data for testing the algorithm.
-- `docs/`: This directory contains documentation for the project.
+- `PDSPARQL/`: This directory contains the source code for the plagiarism detection algorithm.
+- `tests/`: This directory contains jupyter notebooks containing the examples on which we conducted tests.
+- `docs/`: This directory contains report and presentation.
 
 ## Getting Started
 
-To get started with this project, clone the repository and install the required dependencies. Then, run the main script in the `src/` directory.
-
-## Contributing
-
-We welcome contributions to this project. Please see the `CONTRIBUTING.md` file for more details.
+To get started with this project, clone the repository and install the required dependencies. An example usage has been presented below 
 
 ## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for more details.
