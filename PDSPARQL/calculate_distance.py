@@ -1,6 +1,6 @@
 from zss.simple_tree import Node
 from zss.compare import simple_distance
-from query_parsing import convert_query_text, unify_names
+from queryParser import convert_query_text, unify_names
 
 
 def convert_variable_name(variable):
