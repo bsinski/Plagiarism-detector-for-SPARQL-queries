@@ -11,7 +11,7 @@ import collections
 import zss
 
 
-class Node(object):
+class Node():
     """
     A simple node object that can be used to construct trees to be used with
     :py:func:`zss.distance`.
@@ -37,7 +37,21 @@ class Node(object):
 
         :returns: ``self.children``.
         """
+        node.children = sorted(node.children,
+         key=lambda x: (len(list(x.iter())), len(x.children), x.get_max_value_from_subtree() ,x.label))
+
         return node.children
+    
+
+    def get_max_value_from_subtree(self):
+        values = []
+        for child in self.iter():
+            if child.label == "value":
+                value = child.children[0].label
+                values.append(value)
+        if len(values) == 0:
+            return ""
+        return max(values, key=len)
 
     @staticmethod
     def get_label(node):
@@ -78,22 +92,13 @@ class Node(object):
             return sum(b in c for c in self.children)
         raise TypeError("Object %s is not of type str or Node" % repr(b))
 
-    def __eq__(self, b):
-        if b is None: return False
-        if not isinstance(b, Node):
-            raise TypeError("Must compare against type Node")
-        return self.label == b.label
-
-    def __ne__(self, b):
-        return not self.__eq__(b)
-
     def __repr__(self):
         return super(Node, self).__repr__() + " %s>" % self.label
 
-    # def __str__(self):
-    #     s = "%d:%s" % (len(self.children), self.label)
-    #     s = '\n'.join([s]+[str(c) for c in self.children])
-    #     return s
+    def __str__(self):
+        s = "%d:%s" % (len(self.children), self.label)
+        s = '\n'.join([s]+[str(c) for c in self.children])
+        return s
     
     def __str__(self, level=0):
         ret = "\t"*level+repr(self.label)+"\n"
@@ -110,7 +115,7 @@ class Node(object):
             print(header + (elbow if last else tee) + "None")
         else:
             print(header + (elbow if last else tee) + str(self.label))
-        children = list(self.children)
+        children = self.get_children(self)
         for i, c in enumerate(children):
             c.print_tree(header=header + (blank if last else pipe), last=i == len(children) - 1)
 
