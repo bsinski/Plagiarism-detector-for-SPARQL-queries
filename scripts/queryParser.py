@@ -175,6 +175,7 @@ def convert_to_query_structure(input_dict):
             tmp_dict = tmp_dict['p']
     except KeyError:
         pass
+    extends_dict = {}
     try:
         if tmp_dict['p'].name=='Extend':
             extends = parse_extends(tmp_dict['p'])
@@ -182,18 +183,19 @@ def convert_to_query_structure(input_dict):
                 tmp_dict = tmp_dict['p']
             grouped,aggregates,aggregates_dict = parse_groupby(tmp_dict)
             extends_agg =  [item for item in extends if item['expr'] in aggregates]
-            extends_dict = {}
+            
             for extend in extends_agg:
                 extends_dict[extend['var']] = extend['expr']  
             query_dict['group'] = grouped
             tmp_dict = tmp_dict['p']
     except KeyError:
         pass
-
+    print(tmp_dict['p'].name)
     
     try:
         if tmp_dict['p'].name=='Filter':
             filter_condition = tmp_dict['p']['expr']
+            print(filter_condition)
             query_dict['filter'] = parse_filterings(filter_condition)
             tmp_dict = tmp_dict['p']
     except KeyError:
@@ -206,8 +208,11 @@ def convert_to_query_structure(input_dict):
             query_dict['bgp'].append(parse_triple(triple))
     except KeyError:
         pass
-    result_dict = propagate_names(propagate_names(query_dict, extends_dict),aggregates_dict)
-    return result_dict
+    if len(extends_dict) >0:
+        result_dict = propagate_names(propagate_names(query_dict, extends_dict),aggregates_dict)
+        return result_dict
+    else:  
+        return query_dict
 
 
 
