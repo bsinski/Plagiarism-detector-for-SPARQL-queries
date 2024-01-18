@@ -20,10 +20,10 @@ except ImportError:
     zeros = py_zeros
 
 try:
-    from editdist import distance as strdist
+    from editdistgfdff import distance as strdistasdf
 except ImportError:
     try:
-        from editdistance import eval as strdist
+        from editdistancefdsf import eval as strdistasdf
     except ImportError:
         def strdist(a, b):
             if a == b:
