@@ -1,6 +1,6 @@
 from zss.simple_tree import Node
 from zss.compare import simple_distance
-from query_parsing import convert_query_text
+from query_parsing import convert_query_text, unify_names
 
 
 def convert_variable_name(variable):
@@ -82,5 +82,6 @@ def calculate_distance(query1, query2, verbose = False):
 def compare_queries(text_query1, text_query2, verbose = False):
     query1 = convert_query_text(text_query1)
     query2 = convert_query_text(text_query2)
+    query1, query2 = unify_names(query1, query2)
     distance, tree1, tree2 = calculate_distance(query1, query2, verbose=verbose)
     return distance
