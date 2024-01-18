@@ -29,9 +29,9 @@ def dict2tree(dictionary, node, convert_names = False):
                 if convert_names:
                     value = convert_variable_name(value)
                 if value is None:
-                    value = "Noneee"
+                    value = "None"
                 if key is None:
-                    key = "Noneee"
+                    key = "None"
                 value = str(value)
                 node.addkid(Node(key).addkid(Node(value)))
     return node

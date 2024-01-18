@@ -38,7 +38,7 @@ class Node():
         :returns: ``self.children``.
         """
         node.children = sorted(node.children,
-         key=lambda x: (len(list(x.iter())), len(x.children), x.get_max_value_from_subtree() ,x.label))
+         key=lambda x: (len(list(x.iter())), len(x.children), x.get_max_value_from_subtree() ,x.label, x.get_value_if_exist()))
 
         return node.children
     
@@ -52,6 +52,11 @@ class Node():
         if len(values) == 0:
             return ""
         return max(values, key=len)
+    
+    def get_value_if_exist(self):
+        if len(self.children) == 1:
+            return self.children[0].label   
+        return ""             
 
     @staticmethod
     def get_label(node):
