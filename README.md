@@ -1,23 +1,67 @@
-# Plagiarism-detector-for-SPARQL-queries
+# Plagiarism Detector for SPARQL Queries
 
-This project aims to detect plagiarism in SPARQL queries. This project is a part of a course called Knowledge Graphs conducted on the Warsaw University of Technology.   It converts SPARQL queries to Abstract Syntax Trees (AST) and than it calulates the distance between two trees using (metric name).
+## Overview
 
-## Scope
+This project focuses on developing a plagiarism detection system for SPARQL queries. It is a part of the Knowledge Graphs course conducted at the Warsaw University of Technology. The key approach involves converting SPARQL queries into tree form and then assessing their similarity using a distance metric known as Tree Edit Distance.
 
-The scope of this project is to assess the similarity between two SPARQL queries. This is achieved by first converting SPARQL queries to Abstract Syntax Trees (AST) and than it calulating the distance between them using (metric name).
+## Distance Metric
 
-## AST?
-Coś o ast
+**Tree Edit Distance (TED)** is a metric used to quantify the dissimilarity between two trees. It sums the cost of all operations that are needed to convert one tree to the other. In the context of SPARQL queries, it provides a measure of how different the query structures are. The smaller the Tree Edit Distance, the more similar the queries.
 
-## Distance metric 
-Describe the distance metric 
+The concept of Tree Edit Distance was introduced by Zhang and Shasha in their paper titled "Simple Fast Algorithms for the Editing Distance Between Trees and Related Problems" published in the SIAM Journal on Computing in 1989 ([DOI: 10.1137/0218082](https://doi.org/10.1137/0218082)).
 
 ## Directories
 
-- `PDSPARQL/`: This directory contains the source code for the plagiarism detection algorithm.
-- `tests/`: This directory contains jupyter notebooks containing the examples on which we conducted tests.
-- `docs/`: This directory contains report and presentation.
+- `PDSPARQL/`: Contains the source code for the plagiarism detection algorithm.
+- `tests/`: Includes Jupyter notebooks with examples for testing and evaluation.
 
 ## Getting Started
 
-To get started with this project, clone the repository and install the required dependencies. An example usage has been presented below 
+To begin working with this project, follow these steps:
+
+1. Clone the repository.
+2. Install the required dependencies.
+
+Example Usage:
+
+```python
+# Example code for using the plagiarism detection algorithm
+from PDSPARQL import calculate_distance as detector
+
+# Instantiate the PlagiarismDetector
+detector = PlagiarismDetector()
+
+# Load SPARQL queries
+query_text1 = """
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+PREFIX schema: <http://schema.org/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?person ?name WHERE {
+  ?person rdf:type schema:Person ;
+  		schema:height ?height;
+    	schema:givenName ?name .
+  filter(?name = "bartek" && ?height > 170)
+} 
+ORDER BY ?name ?height
+"""
+
+query_text2 = """
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+PREFIX schema: <http://schema.org/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?person ?surname WHERE {
+  ?person rdf:type schema:Person ;
+  		schema:height ?height;
+    	schema:givenName ?surname .
+  filter(?surname = "szymon" && ?height > 190)
+} 
+ORDER BY ?surname ?height
+"""
+
+distance = detector.compare_queries(query_text1, query_text2)
+
+# Output the result
+print(f"Tree Edit Distance: {distance}")
+
+```
+
