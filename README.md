@@ -21,5 +21,3 @@ Describe the distance metric
 ## Getting Started
 
 To get started with this project, clone the repository and install the required dependencies. An example usage has been presented below 
-
-## License
