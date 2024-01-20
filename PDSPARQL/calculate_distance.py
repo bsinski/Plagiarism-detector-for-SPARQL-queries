@@ -4,12 +4,33 @@ from queryParser import convert_query_text, unify_names
 
 
 def convert_variable_name(variable):
+    '''
+    Convert a variable name to a standardized format.
+
+    Args:
+        variable (str): The variable name to be converted.
+
+    Returns:
+        str: The converted variable name.
+
+    '''
     if variable.startswith("?"):
         return "?variable"
     return variable
 
 
 def dict2tree(dictionary, node, convert_names = False):
+    """
+    Converts a dictionary into a tree structure represented by nodes.
+
+    Args:
+        dictionary (dict): The dictionary to be converted into a tree.
+        node (Node): The root node of the tree.
+        convert_names (bool, optional): Flag indicating whether to convert variable names. Defaults to False.
+
+    Returns:
+        Node: The root node of the converted tree.
+    """
     for key, value in dictionary.items():
         key = str(key)
         if isinstance(value, dict):
@@ -38,6 +59,16 @@ def dict2tree(dictionary, node, convert_names = False):
 
 
 def correct_node_equall_relations(node):
+    """
+    Corrects the labels of the children nodes in the given node to "expr" if the operation is "=" or "!=".
+    If the operation is "and" or "or", it also corrects the labels of the children nodes to "expr".
+    
+    Args:
+        node (Node): The root to a tree be corrected.
+    
+    Returns:
+        Node: The root of the corrected node.
+    """
     children = node.children
     children_labels = [child.label for child in children] 
     if "op" in children_labels:
@@ -63,6 +94,17 @@ def correct_tree_relations(tree):
     
 
 def calculate_distance(query1, query2, verbose = False):
+    """
+    Calculates the distance between two queries.
+
+    Args:
+        query1 (dict): The first query.
+        query2 (dict): The second query.
+        verbose (bool, optional): Whether to print additional information. Defaults to False.
+
+    Returns:
+        tuple: A tuple containing the distance between the queries, and the corresponding query trees.
+    """
     node1 = Node("root")
     node2 = Node("root")
     query1['query'].pop('bgp')
@@ -80,6 +122,17 @@ def calculate_distance(query1, query2, verbose = False):
 
 
 def compare_queries(text_query1, text_query2, verbose = False):
+    """
+    Compares two SPARQL queries and calculates the distance between them.
+
+    Parameters:
+    text_query1 (str): The first SPARQL query to compare.
+    text_query2 (str): The second SPARQL query to compare.
+    verbose (bool, optional): If True, additional information will be printed during the comparison. Defaults to False.
+
+    Returns:
+    float: The distance between the two queries.
+    """
     query1 = convert_query_text(text_query1)
     query2 = convert_query_text(text_query2)
     query1, query2 = unify_names(query1, query2)
